@@ -1,6 +1,9 @@
 # Turiy Form Package
 
-This package is made on `react`, `tailwindcss`, `shadcn`, `radix-ui`, `zod` and `react-hook-form`. This is actually help to create a form with validator.
+This package is made on `react`, `react-dom`, `zod`,`tailwindcss`, `shadcn`, `radix-ui` and `react-hook-form`.
+
+> You must install the first four of these to your `node_modules`.
+> This is actually help to create a form with validator.
 
 > **Recommended** to use inside `react components` .
 
@@ -9,18 +12,18 @@ This package is made on `react`, `tailwindcss`, `shadcn`, `radix-ui`, `zod` and 
 ```typescript
 export interface FieldObject {
   [key: string]: {
-    default: string;
-    initial: string;
-    constraint: ZodTypeAny;
+    default: string
+    initial: string
+    constraint: ZodTypeAny
     ui: {
-      label: string;
-      placeholder: string;
-      type?: HTMLInputTypeAttribute; //If type na then not visible
-      options?: Array<{ label: string; value: string }>;
-      className?: string;
-      onAdd?: () => any;
-    };
-  };
+      label: string
+      placeholder: string
+      type?: HTMLInputTypeAttribute //If type na then not visible
+      options?: Array<{ label: string; value: string }>
+      className?: string
+      onAdd?: () => any
+    }
+  }
 }
 ```
 
@@ -28,10 +31,10 @@ export interface FieldObject {
 
 ```typescript
 interface SubmitxProps {
-  label: string;
-  onSubmit: (values: { [key: string]: string }) => any;
-  disabled: boolean;
-  className: string;
+  label: string
+  onSubmit: (values: { [key: string]: string }) => any
+  disabled: boolean
+  className: string
   variant:
     | "link"
     | "default"
@@ -40,13 +43,13 @@ interface SubmitxProps {
     | "secondary"
     | "ghost"
     | null
-    | undefined;
+    | undefined
 }
 
 interface FormxProps {
-  containerClassName: string;
-  contentClassName: string;
-  fields: FieldObject;
-  submit: SubmitxProps;
+  containerClassName: string
+  contentClassName: string
+  fields: FieldObject
+  submit: SubmitxProps
 }
 ```
