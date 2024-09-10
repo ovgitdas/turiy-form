@@ -1,6 +1,10 @@
 {
   "name": "turiy-form",
+<<<<<<< HEAD
   "version": "1.0.2",
+=======
+  "version": "1.0.1",
+>>>>>>> 8386cfe6382c16b380fccfd5bd2ba6aa964c770f
   "description": "This package is built on mysql2.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
