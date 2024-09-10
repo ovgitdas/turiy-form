@@ -39,17 +39,19 @@ export const zValid = (
               : x.match(match as any)
             : true
           : true,
-      !!(match as Eqx).type
-        ? `${label} ${
-            (match as Eqx).type === "string" ? "length" : ""
-          } should be ${!!(match as Eq).eq ? `=${(match as Eq).eq}` : ""} ${
-            !!(match as UnEq).min
-              ? `>=${(match as UnEq).min} ${
-                  !!(match as UnEq).max ? `<=${(match as UnEq).max}` : ""
-                }`
-              : ""
-          } !`
-        : `Invalid ${label}!`
+      !!match
+        ? !!(match as Eqx).type
+          ? `${label} ${
+              (match as Eqx).type === "string" ? "length" : ""
+            } should be ${!!(match as Eq).eq ? `=${(match as Eq).eq}` : ""} ${
+              !!(match as UnEq).min
+                ? `>=${(match as UnEq).min} ${
+                    !!(match as UnEq).max ? `<=${(match as UnEq).max}` : ""
+                  }`
+                : ""
+            } !`
+          : `Invalid ${label}!`
+        : ""
     );
 
 export const regex = {
