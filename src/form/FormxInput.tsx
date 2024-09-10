@@ -1,3 +1,4 @@
+import { Input } from "../ui/input";
 import {
   FormField,
   FormItem,
@@ -5,36 +6,35 @@ import {
   FormMessage,
   FormControl,
 } from "../ui/form";
-import { Input } from "../ui/input";
+import { cn } from "../lib/utils";
 import { Control } from "react-hook-form";
 import { HTMLInputTypeAttribute } from "react";
 
-interface InputxProps {
+export interface FormInputProps {
   control?: Control<any>;
-  fieldName: string;
+  name: string;
   label: string;
   placeholder: string;
   type?: HTMLInputTypeAttribute;
   className?: string;
 }
-
-export const Inputx = ({
+const FormxInput = ({
   control,
-  fieldName,
+  name,
   label,
   placeholder,
   type,
   className,
-}: InputxProps) => (
-  <div className={className}>
+}: FormInputProps) => (
+  <div className={cn(className)}>
     <FormField
       control={control}
-      name={fieldName}
+      name={name}
       render={({ field }) => (
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input placeholder={placeholder} type={type} {...field} />
+            <Input {...field} placeholder={placeholder} type={type} />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -42,3 +42,8 @@ export const Inputx = ({
     />
   </div>
 );
+
+export default FormxInput;
+
+export const isFormInput = (field: any): field is FormInputProps =>
+  "type" in field;

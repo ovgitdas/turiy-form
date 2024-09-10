@@ -1,137 +1,109 @@
+import React, { ReactNode } from "react";
 import { Form } from "../ui/form";
-import { Button } from "../ui/button";
-import { Selectx } from "./Selectx";
-import { Inputx } from "./Inputx";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { cn } from "../lib/utils";
+import FormxField, { FormxFieldElement } from "./FomxField";
 import { z } from "zod";
-import { FieldObject } from "./fieldObjects";
-
-const getFormSchema = (fields: FieldObject) => {
-  let zObject = {};
-  for (const key in fields) {
-    zObject = { ...zObject, [key]: fields[key].constraint };
-  }
-  return z.object(zObject);
-};
-
-const getDefaultValues = (fields: FieldObject) => {
-  let dv = {};
-  for (const key in fields) {
-    dv = { ...dv, [key]: fields[key].default };
-  }
-  return dv;
-};
-
-const getInitialValues = (fields: FieldObject) => {
-  let v = {};
-  for (const key in fields) {
-    v = { ...v, [key]: fields[key].initial };
-  }
-  return v;
-};
-
-// const setInitialValues = (form: UseFormReturn, fields: FieldObject) => {
-//   for (const key in fields) {
-//     form.setValue(key, fields[key].initial);
-//   }
-// };
-
-const getUi = (fields: FieldObject) => {
-  let ui = [];
-  for (const key in fields) {
-    ui.push({
-      name: key,
-      ...fields[key].ui,
-    });
-  }
-  return ui;
-};
-
-interface SubmitxProps {
-  label: string;
-  onSubmit: (values: { [key: string]: string }) => any;
-  disabled: boolean;
-  className: string;
-  variant:
-    | "link"
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | null
-    | undefined;
-}
+import { UseFormReturn, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import FormxSelect from "./FormxSelect";
+import FormxInput from "./FormxInput";
+import { zValid } from "./validation";
 
 interface FormxProps {
-  containerClassName: string;
-  contentClassName: string;
-  fields: FieldObject;
-  submit: SubmitxProps;
+  children: FormxFieldElement | Array<FormxFieldElement>;
+  className?: string;
+  onSubmit: (data: { [name: string]: string }) => any;
+  onInit: (form: UseFormReturn) => any;
+  refine?: {
+    on: (data: { [name: string]: string }) => boolean;
+    message: string;
+    path: Array<string>;
+  };
+  submitButton?: ReactNode;
+  resetButton?: ReactNode;
 }
 
-export const Formx: React.FC<FormxProps> = ({
-  containerClassName,
-  contentClassName,
-  fields,
-  submit,
-}) => {
-  const formSchema = getFormSchema(fields);
-  const defaultValues = getDefaultValues(fields);
-  const initialValues = getInitialValues(fields);
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues,
-    values: initialValues,
+const Formx = ({
+  children,
+  className,
+  onSubmit,
+  onInit,
+  refine,
+  submitButton,
+  resetButton,
+}: Readonly<FormxProps>) => {
+  //Step-1: Read the children props
+  const validators: Array<[string, z.ZodEffects<z.ZodString, string, string>]> =
+    [];
+  const defaultValues: Array<[string, string]> = [];
+  const childs: Array<FormxFieldElement> = [];
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement(child)) {
+      childs.push(child);
+      if (child.type === FormxField) {
+        validators.push([
+          child.props.name,
+          zValid(child.props.label, !!child.props.required, child.props.match),
+        ]);
+        defaultValues.push([child.props.name, child.props.defaultValue]);
+      }
+    }
   });
 
-  const ui = getUi(fields);
+  //Step-2: Create zod schema
+  const validateSchema = z.object(Object.fromEntries(validators));
+  const refinedSchema = !!refine
+    ? validateSchema.refine((data) => refine.on(data), {
+        message: refine.message,
+        path: refine.path,
+      })
+    : validateSchema;
+  const defaultSchemaValue = Object.fromEntries(defaultValues);
+
+  //Step-3: Define your form.
+  const form = useForm<z.infer<typeof refinedSchema>>({
+    resolver: zodResolver(refinedSchema),
+    defaultValues: defaultSchemaValue,
+  });
+
+  React.useEffect(() => {
+    onInit(form);
+  }, [form]);
 
   return (
-    <div className={containerClassName}>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(submit.onSubmit)}
-          className="space-y-8"
-        >
-          <div className={contentClassName}>
-            {ui.map((f) =>
-              !!f.options ? (
-                <Selectx
-                  key={f.name}
-                  control={form.control}
-                  fieldName={f.name}
-                  label={f.label}
-                  placeholder={f.placeholder}
-                  options={f.options}
-                  className={f.className}
-                  onAdd={f.onAdd}
-                />
-              ) : (
-                <Inputx
-                  key={f.name}
-                  control={form.control}
-                  fieldName={f.name}
-                  label={f.label}
-                  placeholder={f.placeholder}
-                  type={f.type}
-                  className={f.className}
-                />
-              )
-            )}
-            <Button
-              className={submit.className}
-              variant={submit.variant}
-              type="submit"
-              disabled={submit.disabled}
-            >
-              {submit.label}
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <div className={cn(className)}>
+          {childs.map((child) =>
+            !!child.props.selectProps ? (
+              <FormxSelect
+                key={child.props.name}
+                control={form.control}
+                name={child.props.name}
+                label={child.props.label}
+                placeholder={child.props.placeholder}
+                options={child.props.selectProps.options}
+                className={child.props.className}
+                onAdd={child.props.selectProps.onAdd}
+              />
+            ) : (
+              <FormxInput
+                key={child.props.name}
+                control={form.control}
+                name={child.props.name}
+                label={child.props.label}
+                placeholder={child.props.placeholder}
+                className={child.props.className}
+                type={child.props.type}
+              />
+            )
+          )}
+          {submitButton}
+          {resetButton}
+        </div>
+      </form>
+    </Form>
   );
 };
+
+export default Formx;
