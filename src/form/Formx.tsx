@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { Form } from "../ui/form";
 import { cn } from "../lib/utils";
-import FormxField, { FormxFieldElement } from "./FomxField";
+import { FormxField, FormxFieldElement } from "./FomxField";
 import { z } from "zod";
 import { UseFormReturn, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -106,4 +106,6 @@ const Formx = ({
   );
 };
 
-export default Formx;
+Formx.displayName = "Formx";
+
+export { Formx };

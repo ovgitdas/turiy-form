@@ -20,9 +20,10 @@ interface FormxFieldProps {
 
 const FormxField = React.forwardRef((props: FormxFieldProps, ref) => <></>);
 
-export default FormxField;
-
 export type FormxFieldElement = ReactElement<
   FormxFieldProps,
   typeof FormxField
 >;
+
+FormxField.displayName = "FormxField";
+export { FormxField };
