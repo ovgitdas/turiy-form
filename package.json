@@ -1,11 +1,7 @@
 {
   "name": "turiy-form",
-<<<<<<< HEAD
   "version": "1.0.2",
-=======
-  "version": "1.0.1",
->>>>>>> 8386cfe6382c16b380fccfd5bd2ba6aa964c770f
-  "description": "This package is built on mysql2.",
+  "description": "This package is built on shadcn, zod",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -20,7 +16,7 @@
     "React",
     "Next"
   ],
-  "author": "abhijit@putonics",
+  "author": "Abhijit Das",
   "license": "ISC",
   "dependencies": {
     "@hookform/resolvers": "^3.6.0",
