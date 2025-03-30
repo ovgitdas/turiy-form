@@ -85,6 +85,7 @@ const Formx = ({
                 options={child.props.selectProps.options}
                 className={child.props.className}
                 onAdd={child.props.selectProps.onAdd}
+                description={child.props.description}
               />
             ) : (
               <FormxInput
@@ -95,6 +96,7 @@ const Formx = ({
                 placeholder={child.props.placeholder}
                 className={child.props.className}
                 type={child.props.type}
+                description={child.props.description}
               />
             )
           )}
