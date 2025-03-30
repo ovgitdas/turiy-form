@@ -10,6 +10,7 @@ interface FormxFieldProps {
   name: string;
   label: string;
   placeholder: string;
+  description?: string;
   className?: string;
   defaultValue: string;
   type: HTMLInputTypeAttribute | "select";
