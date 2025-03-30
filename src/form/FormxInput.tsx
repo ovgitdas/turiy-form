@@ -6,6 +6,7 @@ import {
   FormLabel,
   FormMessage,
   FormControl,
+  FormDescription,
 } from "../ui/form";
 import { cn } from "../lib/utils";
 import { Control } from "react-hook-form";
@@ -18,6 +19,7 @@ export interface FormInputProps {
   placeholder: string;
   type?: HTMLInputTypeAttribute;
   className?: string;
+  description?: string;
 }
 const FormxInput = ({
   control,
@@ -26,6 +28,7 @@ const FormxInput = ({
   placeholder,
   type,
   className,
+  description,
 }: FormInputProps) => (
   <div className={cn(className)}>
     <FormField
@@ -37,6 +40,11 @@ const FormxInput = ({
           <FormControl>
             <Input {...field} placeholder={placeholder} type={type} />
           </FormControl>
+          {!!description ? (
+            <FormDescription>{description}</FormDescription>
+          ) : (
+            <></>
+          )}
           <FormMessage />
         </FormItem>
       )}

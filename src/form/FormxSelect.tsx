@@ -5,6 +5,7 @@ import {
   FormLabel,
   FormMessage,
   FormControl,
+  FormDescription,
 } from "../ui/form";
 import {
   Select,
@@ -26,6 +27,7 @@ export interface FormSelectProps {
   options: Array<{ label: string; value: string }>;
   className?: string;
   onAdd?: () => any;
+  description?: string;
 }
 const FormxSelect = ({
   control,
@@ -35,6 +37,7 @@ const FormxSelect = ({
   options,
   className,
   onAdd,
+  description,
 }: FormSelectProps) => (
   <div className={cn(className)}>
     <div className="flex w-full gap-2">
@@ -59,6 +62,11 @@ const FormxSelect = ({
                   ))}
                 </SelectContent>
               </Select>
+              {!!description ? (
+                <FormDescription>{description}</FormDescription>
+              ) : (
+                <></>
+              )}
               <FormMessage />
             </FormItem>
           )}
