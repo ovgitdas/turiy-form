@@ -45,7 +45,15 @@ const Formx = ({
           child.props.name,
           zValid(child.props.label, !!child.props.required, child.props.match),
         ]);
-        defaultValues.push([child.props.name, child.props.defaultValue]);
+        if (child.props.cached) {
+          const dv = localStorage.getItem(`cached_${child.props.name}`);
+          defaultValues.push([
+            child.props.name,
+            dv || child.props.defaultValue,
+          ]);
+        } else {
+          defaultValues.push([child.props.name, child.props.defaultValue]);
+        }
       }
     }
   });
@@ -70,9 +78,19 @@ const Formx = ({
     onInit(form);
   }, [form]);
 
+  //~ Allowing auto caching of fields if cached=true is given
+  const _onSubmit = (data: { [name: string]: string }) => {
+    childs.forEach((c) => {
+      if (c.props.cached) {
+        localStorage.setItem(`cached_${c.props.name}`, data[c.props.name]);
+      }
+    });
+    onSubmit(data);
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(_onSubmit)} className="space-y-8">
         <div className={cn(className)}>
           {childs.map((child) =>
             !!child.props.selectProps ? (

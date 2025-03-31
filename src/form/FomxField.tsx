@@ -17,6 +17,7 @@ interface FormxFieldProps {
   selectProps?: FormxSelectProps;
   required?: boolean;
   match?: RegExp | Eq | UnEq;
+  cached?: boolean;
 }
 
 const FormxField = React.forwardRef((props: FormxFieldProps, ref) => <></>);
