@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { Input } from "../ui/input";
 import {
   FormField,
@@ -19,7 +19,7 @@ export interface FormInputProps {
   placeholder: string;
   type?: HTMLInputTypeAttribute;
   className?: string;
-  description?: string;
+  description?: ReactNode;
 }
 const FormxInput = ({
   control,

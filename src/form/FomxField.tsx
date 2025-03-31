@@ -1,4 +1,4 @@
-import React, { HTMLInputTypeAttribute, ReactElement } from "react";
+import React, { HTMLInputTypeAttribute, ReactElement, ReactNode } from "react";
 import { Eq, UnEq } from "./validation";
 
 interface FormxSelectProps {
@@ -10,7 +10,7 @@ interface FormxFieldProps {
   name: string;
   label: string;
   placeholder: string;
-  description?: string;
+  description?: ReactNode;
   className?: string;
   defaultValue: string;
   type: HTMLInputTypeAttribute | "select";

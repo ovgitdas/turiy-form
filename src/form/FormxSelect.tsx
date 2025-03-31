@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import {
   FormField,
   FormItem,
@@ -27,7 +27,7 @@ export interface FormSelectProps {
   options: Array<{ label: string; value: string }>;
   className?: string;
   onAdd?: () => any;
-  description?: string;
+  description?: ReactNode;
 }
 const FormxSelect = ({
   control,
