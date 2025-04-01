@@ -20,6 +20,7 @@ export interface FormInputProps {
   type?: HTMLInputTypeAttribute;
   className?: string;
   description?: ReactNode;
+  disabled?: boolean;
 }
 const FormxInput = ({
   control,
@@ -29,6 +30,7 @@ const FormxInput = ({
   type,
   className,
   description,
+  disabled,
 }: FormInputProps) => (
   <div className={cn(className)}>
     <FormField
@@ -38,7 +40,12 @@ const FormxInput = ({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input {...field} placeholder={placeholder} type={type} />
+            <Input
+              {...field}
+              placeholder={placeholder}
+              type={type}
+              disabled={disabled}
+            />
           </FormControl>
           {!!description ? (
             <FormDescription>{description}</FormDescription>

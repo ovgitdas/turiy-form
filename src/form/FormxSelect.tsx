@@ -28,6 +28,7 @@ export interface FormSelectProps {
   className?: string;
   onAdd?: () => any;
   description?: ReactNode;
+  disabled?: boolean;
 }
 const FormxSelect = ({
   control,
@@ -38,6 +39,7 @@ const FormxSelect = ({
   className,
   onAdd,
   description,
+  disabled,
 }: FormSelectProps) => (
   <div className={cn(className)}>
     <div className="flex w-full gap-2">
@@ -48,7 +50,11 @@ const FormxSelect = ({
           render={({ field }) => (
             <FormItem>
               <FormLabel>{label}</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={disabled}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder={placeholder} />
@@ -80,6 +86,7 @@ const FormxSelect = ({
             variant="secondary"
             onClick={onAdd}
             className={cn(!!onAdd ? "visible" : "hidden")}
+            disabled={disabled}
           >
             <PlusIcon />
           </Button>

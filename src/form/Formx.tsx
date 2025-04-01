@@ -104,6 +104,7 @@ const Formx = ({
                 className={child.props.className}
                 onAdd={child.props.selectProps.onAdd}
                 description={child.props.description}
+                disabled={child.props.disabled}
               />
             ) : (
               <FormxInput
@@ -115,6 +116,7 @@ const Formx = ({
                 className={child.props.className}
                 type={child.props.type}
                 description={child.props.description}
+                disabled={child.props.disabled}
               />
             )
           )}
