@@ -29,6 +29,7 @@ export interface FormSelectProps {
   onAdd?: () => any;
   description?: ReactNode;
   disabled?: boolean;
+  onFocusChanged: (focus: boolean) => any;
 }
 const FormxSelect = ({
   control,
@@ -40,6 +41,7 @@ const FormxSelect = ({
   onAdd,
   description,
   disabled,
+  onFocusChanged,
 }: FormSelectProps) => (
   <div className={cn(className)}>
     <div className="flex w-full gap-2">
@@ -54,6 +56,7 @@ const FormxSelect = ({
                 onValueChange={field.onChange}
                 defaultValue={field.value}
                 disabled={disabled}
+                onOpenChange={(focused) => onFocusChanged(focused)}
               >
                 <FormControl>
                   <SelectTrigger>

@@ -13,6 +13,10 @@ interface FormxProps {
   children: FormxFieldElement | Array<FormxFieldElement>;
   className?: string;
   onSubmit: (data: { [name: string]: string }) => any;
+  onChange?: (data: {
+    [name: string]: string;
+    selectedFieldName: string;
+  }) => any;
   onInit: (form: UseFormReturn) => any;
   refine?: {
     on: (data: { [name: string]: string }) => boolean;
@@ -27,6 +31,7 @@ const Formx = ({
   children,
   className,
   onSubmit,
+  onChange,
   onInit,
   refine,
   submitButton,
@@ -88,6 +93,14 @@ const Formx = ({
     onSubmit(data);
   };
 
+  const [selectedFieldName, setSelectedFieldName] = React.useState("");
+  const values = form.watch();
+  React.useEffect(() => {
+    if (!!onChange) {
+      onChange({ ...values, selectedFieldName });
+    }
+  }, [values]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(_onSubmit)} className="space-y-8">
@@ -105,6 +118,11 @@ const Formx = ({
                 onAdd={child.props.selectProps.onAdd}
                 description={child.props.description}
                 disabled={child.props.disabled}
+                onFocusChanged={(focused) => {
+                  if (focused) {
+                    setSelectedFieldName(child.props.name);
+                  }
+                }}
               />
             ) : (
               <FormxInput
@@ -117,6 +135,11 @@ const Formx = ({
                 type={child.props.type}
                 description={child.props.description}
                 disabled={child.props.disabled}
+                onFocusChanged={(focused) => {
+                  if (focused) {
+                    setSelectedFieldName(child.props.name);
+                  }
+                }}
               />
             )
           )}
