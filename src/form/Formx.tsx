@@ -93,11 +93,17 @@ const Formx = ({
     onSubmit(data);
   };
 
-  const [selectedFieldName, setSelectedFieldName] = React.useState("");
+  const [v, setV] = React.useState({
+    selectedFieldName: "",
+  });
   const values = form.watch();
   React.useEffect(() => {
     if (!!onChange) {
-      onChange({ ...values, selectedFieldName });
+      const newV = { ...values, selectedFieldName: v.selectedFieldName };
+      if (JSON.stringify(v) !== JSON.stringify(newV)) {
+        setV(newV);
+        onChange(newV);
+      }
     }
   }, [values]);
 
@@ -120,7 +126,7 @@ const Formx = ({
                 disabled={child.props.disabled}
                 onFocusChanged={(focused) => {
                   if (focused) {
-                    setSelectedFieldName(child.props.name);
+                    setV({ ...v, selectedFieldName: child.props.name });
                   }
                 }}
               />
@@ -137,7 +143,7 @@ const Formx = ({
                 disabled={child.props.disabled}
                 onFocusChanged={(focused) => {
                   if (focused) {
-                    setSelectedFieldName(child.props.name);
+                    setV({ ...v, selectedFieldName: child.props.name });
                   }
                 }}
               />
