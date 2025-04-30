@@ -21,6 +21,7 @@ export interface FormInputProps {
   className?: string;
   description?: ReactNode;
   disabled?: boolean;
+  required?: boolean;
   onFocusChanged: (focus: boolean) => any;
 }
 const FormxInput = ({
@@ -32,6 +33,7 @@ const FormxInput = ({
   className,
   description,
   disabled,
+  required,
   onFocusChanged,
 }: FormInputProps) => (
   <div className={cn(className)}>
@@ -40,13 +42,21 @@ const FormxInput = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>
+            {!disabled && !!required ? (
+              <span className="text-red-700">*</span>
+            ) : (
+              <></>
+            )}
+            {label}
+          </FormLabel>
           <FormControl>
             <Input
               {...field}
               placeholder={placeholder}
               type={type}
               disabled={disabled}
+              required={!disabled && !!required}
               onFocus={() => onFocusChanged(true)}
               onBlur={() => onFocusChanged(true)}
             />

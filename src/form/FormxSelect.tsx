@@ -29,6 +29,7 @@ export interface FormSelectProps {
   onAdd?: () => any;
   description?: ReactNode;
   disabled?: boolean;
+  required?: boolean;
   onFocusChanged: (focus: boolean) => any;
 }
 const FormxSelect = ({
@@ -41,6 +42,7 @@ const FormxSelect = ({
   onAdd,
   description,
   disabled,
+  required,
   onFocusChanged,
 }: FormSelectProps) => (
   <div className={cn(className)}>
@@ -51,11 +53,20 @@ const FormxSelect = ({
           name={name}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>{label}</FormLabel>
+              <FormLabel>
+                {" "}
+                {!disabled && !!required ? (
+                  <span className="text-red-700">*</span>
+                ) : (
+                  <></>
+                )}
+                {label}
+              </FormLabel>
               <Select
                 onValueChange={field.onChange}
                 defaultValue={field.value}
                 disabled={disabled}
+                required={!disabled && !!required}
                 onOpenChange={(focused) => onFocusChanged(focused)}
               >
                 <FormControl>

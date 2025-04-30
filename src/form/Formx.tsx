@@ -17,7 +17,7 @@ interface FormxProps {
     [name: string]: string;
     selectedFieldName: string;
   }) => any;
-  onInit: (form: UseFormReturn) => any;
+  onInit?: (form: UseFormReturn) => any;
   refine?: {
     on: (data: { [name: string]: string }) => boolean;
     message: string;
@@ -80,7 +80,7 @@ const Formx = ({
   });
 
   React.useEffect(() => {
-    onInit(form);
+    if (!!onInit) onInit(form);
   }, [form]);
 
   //~ Allowing auto caching of fields if cached=true is given
@@ -124,6 +124,7 @@ const Formx = ({
                 onAdd={child.props.selectProps.onAdd}
                 description={child.props.description}
                 disabled={child.props.disabled}
+                required={child.props.required}
                 onFocusChanged={(focused) => {
                   if (focused) {
                     setV({ ...v, selectedFieldName: child.props.name });
@@ -141,6 +142,7 @@ const Formx = ({
                 type={child.props.type}
                 description={child.props.description}
                 disabled={child.props.disabled}
+                required={child.props.required}
                 onFocusChanged={(focused) => {
                   if (focused) {
                     setV({ ...v, selectedFieldName: child.props.name });
