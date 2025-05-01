@@ -1,6 +1,6 @@
 {
   "name": "turiy-form",
-  "version": "1.2.2",
+  "version": "2.2.2",
   "description": "This package is built on shadcn, zod",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -30,8 +30,8 @@
     "zod": "^3.23.8"
   },
   "peerDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react": "*",
+    "react-dom": "*"
   },
   "devDependencies": {
     "@types/node": "^20.14.9",
