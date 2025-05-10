@@ -125,6 +125,7 @@ const Formx = ({
                 description={child.props.description}
                 disabled={child.props.disabled}
                 required={child.props.required}
+                autoFocus={child.props.autoFocus}
                 onFocusChanged={(focused) => {
                   if (focused) {
                     setV({ ...v, selectedFieldName: child.props.name });
@@ -143,6 +144,7 @@ const Formx = ({
                 description={child.props.description}
                 disabled={child.props.disabled}
                 required={child.props.required}
+                autoFocus={child.props.autoFocus}
                 onFocusChanged={(focused) => {
                   if (focused) {
                     setV({ ...v, selectedFieldName: child.props.name });

@@ -22,6 +22,7 @@ export interface FormInputProps {
   description?: ReactNode;
   disabled?: boolean;
   required?: boolean;
+  autoFocus?: boolean;
   onFocusChanged: (focus: boolean) => any;
 }
 const FormxInput = ({
@@ -34,6 +35,7 @@ const FormxInput = ({
   description,
   disabled,
   required,
+  autoFocus,
   onFocusChanged,
 }: FormInputProps) => (
   <div className={cn(className)}>
@@ -50,7 +52,7 @@ const FormxInput = ({
             )}
             {label}
           </FormLabel>
-          <FormControl>
+          <FormControl autoFocus={autoFocus}>
             <Input
               {...field}
               placeholder={placeholder}

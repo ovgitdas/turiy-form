@@ -30,6 +30,7 @@ export interface FormSelectProps {
   description?: ReactNode;
   disabled?: boolean;
   required?: boolean;
+  autoFocus?: boolean;
   onFocusChanged: (focus: boolean) => any;
 }
 const FormxSelect = ({
@@ -43,6 +44,7 @@ const FormxSelect = ({
   description,
   disabled,
   required,
+  autoFocus,
   onFocusChanged,
 }: FormSelectProps) => (
   <div className={cn(className)}>
@@ -69,7 +71,7 @@ const FormxSelect = ({
                 required={!disabled && !!required}
                 onOpenChange={(focused) => onFocusChanged(focused)}
               >
-                <FormControl>
+                <FormControl autoFocus={autoFocus}>
                   <SelectTrigger>
                     <SelectValue placeholder={placeholder} />
                   </SelectTrigger>

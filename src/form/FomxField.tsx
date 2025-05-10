@@ -19,6 +19,7 @@ interface FormxFieldProps {
   match?: RegExp | Eq | UnEq;
   cached?: boolean;
   disabled?: boolean;
+  autoFocus?: boolean;
 }
 
 const FormxField = React.forwardRef((props: FormxFieldProps, ref) => <></>);
