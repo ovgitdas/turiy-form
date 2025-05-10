@@ -46,73 +46,79 @@ const FormxSelect = ({
   required,
   autoFocus,
   onFocusChanged,
-}: FormSelectProps) => (
-  <div className={cn(className)}>
-    <div className="flex w-full gap-2">
-      <div className="flex-1">
-        <FormField
-          control={control}
-          name={name}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>
-                {" "}
-                {!disabled && !!required ? (
-                  <span className="text-red-700">*</span>
+}: FormSelectProps) => {
+  const ref = React.useRef<HTMLButtonElement>(null);
+  React.useEffect(() => {
+    if (!!ref.current && !!autoFocus) ref.current.focus();
+  }, [autoFocus, ref]);
+  return (
+    <div className={cn(className)}>
+      <div className="flex w-full gap-2">
+        <div className="flex-1">
+          <FormField
+            control={control}
+            name={name}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  {" "}
+                  {!disabled && !!required ? (
+                    <span className="text-red-700">*</span>
+                  ) : (
+                    <></>
+                  )}
+                  {label}
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                  disabled={disabled}
+                  required={!disabled && !!required}
+                  onOpenChange={(focused) => onFocusChanged(focused)}
+                >
+                  <FormControl>
+                    <SelectTrigger ref={ref}>
+                      <SelectValue placeholder={placeholder} />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {options.map((op) => (
+                      <SelectItem key={op.value} value={op.value}>
+                        {op.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {!!description ? (
+                  <FormDescription>{description}</FormDescription>
                 ) : (
                   <></>
                 )}
-                {label}
-              </FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                defaultValue={field.value}
-                disabled={disabled}
-                required={!disabled && !!required}
-                onOpenChange={(focused) => onFocusChanged(focused)}
-              >
-                <FormControl autoFocus={autoFocus}>
-                  <SelectTrigger>
-                    <SelectValue placeholder={placeholder} />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {options.map((op) => (
-                    <SelectItem key={op.value} value={op.value}>
-                      {op.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {!!description ? (
-                <FormDescription>{description}</FormDescription>
-              ) : (
-                <></>
-              )}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-      {onAdd ? (
-        <div className="h-full flex flex-col items-center justify-center">
-          <div className="flex-1"></div>
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={onAdd}
-            className={cn(!!onAdd ? "visible" : "hidden")}
-            disabled={disabled}
-          >
-            <PlusIcon />
-          </Button>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
-      ) : (
-        <></>
-      )}
+        {onAdd ? (
+          <div className="h-full flex flex-col items-center justify-center">
+            <div className="flex-1"></div>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={onAdd}
+              className={cn(!!onAdd ? "visible" : "hidden")}
+              disabled={disabled}
+            >
+              <PlusIcon />
+            </Button>
+          </div>
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default FormxSelect;
 

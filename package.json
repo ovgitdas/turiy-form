@@ -1,6 +1,6 @@
 {
   "name": "turiy-form",
-  "version": "2.3.3",
+  "version": "2.3.4",
   "description": "This package is built on shadcn, zod",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

@@ -37,43 +37,50 @@ const FormxInput = ({
   required,
   autoFocus,
   onFocusChanged,
-}: FormInputProps) => (
-  <div className={cn(className)}>
-    <FormField
-      control={control}
-      name={name}
-      render={({ field }) => (
-        <FormItem>
-          <FormLabel>
-            {!disabled && !!required ? (
-              <span className="text-red-700">*</span>
+}: FormInputProps) => {
+  const ref = React.useRef<HTMLInputElement>(null);
+  React.useEffect(() => {
+    if (!!ref.current && !!autoFocus) ref.current.focus();
+  }, [autoFocus, ref]);
+  return (
+    <div className={cn(className)}>
+      <FormField
+        control={control}
+        name={name}
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>
+              {!disabled && !!required ? (
+                <span className="text-red-700">*</span>
+              ) : (
+                <></>
+              )}
+              {label}
+            </FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                ref={ref}
+                placeholder={placeholder}
+                type={type}
+                disabled={disabled}
+                required={!disabled && !!required}
+                onFocus={() => onFocusChanged(true)}
+                onBlur={() => onFocusChanged(true)}
+              />
+            </FormControl>
+            {!!description ? (
+              <FormDescription>{description}</FormDescription>
             ) : (
               <></>
             )}
-            {label}
-          </FormLabel>
-          <FormControl autoFocus={autoFocus}>
-            <Input
-              {...field}
-              placeholder={placeholder}
-              type={type}
-              disabled={disabled}
-              required={!disabled && !!required}
-              onFocus={() => onFocusChanged(true)}
-              onBlur={() => onFocusChanged(true)}
-            />
-          </FormControl>
-          {!!description ? (
-            <FormDescription>{description}</FormDescription>
-          ) : (
-            <></>
-          )}
-          <FormMessage />
-        </FormItem>
-      )}
-    />
-  </div>
-);
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </div>
+  );
+};
 
 export default FormxInput;
 
